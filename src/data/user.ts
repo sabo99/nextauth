@@ -1,17 +1,14 @@
 import { db } from "@/lib/db";
 import { User } from "@prisma/client";
 
-export const getUserByEmail = async (email: string): Promise<User | null> => {
+export const getUser = async (
+  value: string,
+  searchBy: "id" | "email",
+): Promise<User | null> => {
   try {
-    return await db.user.findUnique({ where: { email: email } });
-  } catch (error) {
-    return null;
-  }
-};
-
-export const getUserById = async (id: string): Promise<User | null> => {
-  try {
-    return await db.user.findUnique({ where: { id: id } });
+    return searchBy === "id"
+      ? await db.user.findUnique({ where: { id: value } })
+      : await db.user.findUnique({ where: { email: value } });
   } catch (error) {
     return null;
   }
