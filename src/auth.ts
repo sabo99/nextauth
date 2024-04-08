@@ -24,11 +24,18 @@ export const {
     },
   },
   callbacks: {
-    // async signIn({ user }) {
-    //   const existingUser = await getUserById(user.id!!);
-    //
-    //   return !(!existingUser || !existingUser.emailVerified);
-    // },
+    async signIn({ user, account }) {
+      // Allow OAuth without email verification
+      if (account?.provider !== "credentials") return true;
+
+      // Prevent sign in without email verification
+      const existingUser = await getUser(user.id!!, "id");
+      if (!existingUser?.emailVerified) return false;
+
+      // TODO: Add 2FA Check
+
+      return true;
+    },
     async jwt({ token }) {
       if (!token.sub) return token;
 
@@ -46,10 +53,6 @@ export const {
         session.user.role = token.role as UserRole;
       }
 
-      console.log({
-        sessionToken: token,
-        token,
-      });
       return session;
     },
   },
