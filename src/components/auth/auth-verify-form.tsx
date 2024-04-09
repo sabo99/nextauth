@@ -52,7 +52,7 @@ export const AuthVerifyForm = () => {
       backButtonHidden={!(success || error)}
     >
       <div className="flex items-center w-full justify-center">
-        {!success && !error && <BeatLoader />}
+        {!success && !error && <BeatLoader color="#68bffd" />}
         <FormSuccess message={success} />
         {!success && <FormError message={error} />}
       </div>
