@@ -74,7 +74,7 @@ const LoginForm = () => {
                       {...field}
                       disabled={isPending}
                       type="email"
-                      placeholder="john.doe@example.com"
+                      placeholder="example@example.com"
                     />
                   </FormControl>
                   <FormMessage />
@@ -92,7 +92,7 @@ const LoginForm = () => {
                       {...field}
                       disabled={isPending}
                       type="password"
-                      placeholder="*****"
+                      placeholder="Your password"
                     />
                   </FormControl>
                   <FormMessage />
@@ -102,6 +102,7 @@ const LoginForm = () => {
           </div>
           <FormError message={error || urlError} />
           <FormSuccess message={success} />
+
           <Button disabled={isPending} type="submit" className="w-full">
             Login
           </Button>
