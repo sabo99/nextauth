@@ -7,12 +7,15 @@ import { Button } from "@/components/ui/button";
 interface BackButtonProps {
   href: string;
   label: string;
+  hidden?: boolean;
 }
 
-export const BackButton = ({ href, label }: BackButtonProps) => {
+export const BackButton = ({ href, label, hidden }: BackButtonProps) => {
   return (
-    <Button variant="link" className="font-normal w-full" size="sm" asChild>
-      <Link href={href}>{label}</Link>
-    </Button>
+    !hidden && (
+      <Button variant="link" className="font-normal w-full" size="sm" asChild>
+        <Link href={href}>{label}</Link>
+      </Button>
+    )
   );
 };

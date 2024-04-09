@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { LoginSchema } from "@/schemas";
 import { signIn } from "@/auth";
-import { DEFAULT_LOGIN_REDIRECT } from "@/route";
+import { DEFAULT_LOGGED_IN_REDIRECT } from "@/route";
 import { AuthError } from "next-auth";
 import { getUser } from "@/data/user";
 
@@ -32,14 +32,15 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     const response = await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: DEFAULT_LOGGED_IN_REDIRECT,
     });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-        case "AccessDenied":
           return { error: "Invalid Credentials" };
+        case "AccessDenied":
+          return { error: "Your account has not been verified" };
         default:
           return { error: "Login failed. Something went wrong." };
       }
