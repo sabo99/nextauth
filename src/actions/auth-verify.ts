@@ -47,6 +47,7 @@ export const authVerify = async (token: string) => {
 
     return { success: "Email verified!" };
   } catch (error) {
+    console.error("Auth Verify", error);
     return { error: "Something went wrong!" };
   }
 };
