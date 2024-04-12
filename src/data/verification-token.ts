@@ -14,6 +14,16 @@ export const getVerificationToken = async (
   }
 };
 
+export const deleteVerificationToken = async (existingTokenId: string) => {
+  try {
+    return await db.verificationToken.delete({
+      where: { id: existingTokenId },
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const createVerificationToken = async (email: string) => {
   const token: string = uuidv4();
   const expires: Date = new Date(new Date().getTime() + 60 * 60 * 1000);
@@ -24,14 +34,4 @@ export const createVerificationToken = async (email: string) => {
       expires,
     },
   });
-};
-
-export const deleteVerificationToken = async (existingTokenId: string) => {
-  try {
-    return await db.verificationToken.delete({
-      where: { id: existingTokenId },
-    });
-  } catch (error) {
-    console.error(error);
-  }
 };

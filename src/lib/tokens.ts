@@ -10,6 +10,12 @@ import {
   getPasswordResetToken,
 } from "@/data/password-reset-token";
 
+import {
+  createTwoFactorToken,
+  deleteTwoFactorToken,
+  getTwoFactorToken,
+} from "@/data/two-factor-token";
+
 export const generateVerificationToken = async (email: string) => {
   const existingToken = await getVerificationToken(email, "email");
   if (existingToken) {
@@ -27,4 +33,14 @@ export const generatePasswordResetToken = async (email: string) => {
   }
 
   return await createPasswordResetToken(email);
+};
+
+export const generateTwoFactorToken = async (email: string) => {
+  const existingToken = await getTwoFactorToken(email, "email");
+
+  if (existingToken) {
+    await deleteTwoFactorToken(existingToken.id);
+  }
+
+  return await createTwoFactorToken(email);
 };
