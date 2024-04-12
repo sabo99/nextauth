@@ -26,7 +26,7 @@ export const deleteTwoFactorToken = async (twoFactorTokenId: string) => {
 
 export const createTwoFactorToken = async (email: string) => {
   const token = crypto.randomInt(100_000, 1_000_000).toString();
-  const expires: Date = new Date(new Date().getTime() + 60 * 15 * 1000);
+  const expires: Date = new Date(new Date().getTime() + 60 * 5 * 1000);
   return db.twoFactorToken.create({
     data: {
       email,

@@ -53,7 +53,9 @@ export const sendTwoFactorEmail = async (values: string | string[]) => {
       from: "onboarding@resend.dev",
       to: [email],
       subject: subject,
-      html: `<p>Your 2FA code : ${twoFactorToken.token}</p>`,
+      html: `<p>Your 2FA code : ${twoFactorToken.token}</p>
+        <br>
+        <p>Your code expired until <b>${twoFactorToken.expires.toLocaleString()}</b></p>`,
     });
   }
 };
