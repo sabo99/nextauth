@@ -18,7 +18,10 @@ import {
 } from "@/data/two-factor-confirmation";
 import bcrypt from "bcryptjs";
 
-export const login = async (values: z.infer<typeof LoginSchema>) => {
+export const login = async (
+  values: z.infer<typeof LoginSchema>,
+  callbackUrl?: string | null,
+) => {
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -78,7 +81,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     const response = await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGGED_IN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGGED_IN_REDIRECT,
     });
     return { success: "Logged in successfully!" };
   } catch (error) {

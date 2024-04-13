@@ -5,7 +5,7 @@ import {
   generateVerificationToken,
 } from "@/lib/tokens";
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+const domain = process.env.NEXT_PUBLIC_APP_URL;
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendVerificationEmail = async (values: string | string[]) => {
@@ -14,13 +14,15 @@ export const sendVerificationEmail = async (values: string | string[]) => {
 
   for (const email of emails) {
     const verificationToken = await generateVerificationToken(email);
-    const confirmLink = `${appUrl}/auth/verify?token=${verificationToken.token}`;
+    const confirmLink = `${domain}/auth/verify?token=${verificationToken.token}`;
 
     await resend.emails.send({
       from: "onboarding@resend.dev",
       to: [email],
       subject: subject,
-      html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
+      html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p> 
+        <br>
+        <p>This link expired until <b>${verificationToken.expires.toLocaleString()}</b></p>`,
     });
   }
 };
@@ -31,13 +33,15 @@ export const sendPasswordResetEmail = async (values: string | string[]) => {
 
   for (const email of emails) {
     const passwordResetToken = await generatePasswordResetToken(email);
-    const resetLink = `${appUrl}/auth/new-password?token=${passwordResetToken.token}`;
+    const resetLink = `${domain}/auth/new-password?token=${passwordResetToken.token}`;
 
     await resend.emails.send({
       from: "onboarding@resend.dev",
       to: [email],
       subject: subject,
-      html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`,
+      html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p> 
+        <br>
+        <p>This link expired until <b>${passwordResetToken.expires.toLocaleString()}</b></p>`,
     });
   }
 };
