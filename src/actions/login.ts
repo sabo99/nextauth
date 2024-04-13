@@ -16,6 +16,7 @@ import {
   deleteTwoFactorConfirmation,
   getTwoFactorConfirmation,
 } from "@/data/two-factor-confirmation";
+import bcrypt from "bcryptjs";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
@@ -28,6 +29,12 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   const existingUser = await getUser(email, "email");
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: "Email doesn't exists!" };
+  }
+
+  // Check Password
+  const passwordMatch = await bcrypt.compare(password, existingUser.password);
+  if (!passwordMatch) {
+    return { error: "Passwords do not match!" };
   }
 
   if (!existingUser.emailVerified) {
