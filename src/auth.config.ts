@@ -33,5 +33,5 @@ export default {
         }
       },
     }),
-  ],
+  ] as any,
 } satisfies NextAuthConfig;

@@ -9,7 +9,7 @@ import { Toaster as ToasterSooner } from "@/components/ui/sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "NextJs 14 - AuthJs",
+  title: process.env.NEXT_PUBLIC_APP_NAME,
   description: "NextJs 14 with AuthJs v5",
 };
 
