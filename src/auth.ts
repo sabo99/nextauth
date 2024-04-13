@@ -8,6 +8,7 @@ import {
   deleteTwoFactorConfirmation,
   getTwoFactorConfirmation,
 } from "@/data/two-factor-confirmation";
+import { getAccount } from "@/data/account";
 
 export const {
   handlers: { GET, POST },
@@ -55,8 +56,15 @@ export const {
 
       const existingUser = await getUser(token.sub, "id");
       if (!existingUser) return token;
+
+      const existingAccount = await getAccount(existingUser.id);
+
+      token.isOAuth = !!existingAccount;
+      token.name = existingUser.name;
+      token.email = existingUser.email;
       token.role = existingUser.role;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
+
       return token;
     },
     async session({ token, session }) {
@@ -70,6 +78,12 @@ export const {
 
       if (token.isTwoFactorEnabled && session.user) {
         session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
+      }
+
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.email = token.email as string;
+        session.user.isOAuth = token.isOAuth as boolean;
       }
 
       return session;

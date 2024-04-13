@@ -13,3 +13,14 @@ export const getUser = async (
     return null;
   }
 };
+
+export const updateUser = async (id: string, values: any) => {
+  try {
+    await db.user.update({ where: { id: id }, data: { ...values } });
+
+    return { success: "Settings Updated!" };
+  } catch (error) {
+    console.error("Update User", error);
+    return null;
+  }
+};
