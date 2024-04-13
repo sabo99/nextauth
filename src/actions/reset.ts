@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { ResetSchema } from "@/schemas";
 import { getUser } from "@/data/user";
-import { sendPasswordResetEmail } from "@/lib/mail";
+import { sendPasswordResetEmail } from "@/lib/nodemailer/nodemailer";
 
 export const reset = async (values: z.infer<typeof ResetSchema>) => {
   const validatedFields = ResetSchema.safeParse(values);

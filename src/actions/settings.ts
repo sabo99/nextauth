@@ -4,7 +4,7 @@ import * as z from "zod";
 import { SettingsSchema } from "@/schemas";
 import { currentUser } from "@/lib/auth";
 import { getUser, updateUser } from "@/data/user";
-import { sendVerificationEmail } from "@/lib/mail";
+import { sendVerificationEmail } from "@/lib/nodemailer/nodemailer";
 import bcrypt from "bcryptjs";
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {

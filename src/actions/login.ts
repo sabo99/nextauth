@@ -6,7 +6,6 @@ import { signIn } from "@/auth";
 import { DEFAULT_LOGGED_IN_REDIRECT } from "@/route";
 import { AuthError } from "next-auth";
 import { getUser } from "@/data/user";
-import { sendTwoFactorEmail } from "@/lib/mail";
 import {
   deleteTwoFactorToken,
   getTwoFactorToken,
@@ -17,6 +16,7 @@ import {
   getTwoFactorConfirmation,
 } from "@/data/two-factor-confirmation";
 import bcrypt from "bcryptjs";
+import { sendTwoFactorEmail } from "@/lib/nodemailer/nodemailer";
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,
@@ -78,7 +78,7 @@ export const login = async (
   }
 
   try {
-    const response = await signIn("credentials", {
+    await signIn("credentials", {
       email,
       password,
       redirectTo: callbackUrl || DEFAULT_LOGGED_IN_REDIRECT,
