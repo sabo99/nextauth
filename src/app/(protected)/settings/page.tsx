@@ -62,6 +62,7 @@ const SettingsPage = () => {
           }
 
           if (data.success) {
+            // Update Session
             update().then(() => {
               setSuccess(data.success);
             });
